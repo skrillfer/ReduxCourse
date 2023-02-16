@@ -12,6 +12,12 @@ export default function reducer(state = [], action) {
           completed: false,
         },
       ];
+    case actionTypes.UPDATE_TASK:
+      return state.map((task) =>
+        task.id === action.payload.task.id
+          ? { ...task, ...action.payload.task }
+          : task
+      );
     case actionTypes.REMOVE_TASK:
       return state.filter((task) => task.id !== action.payload.id);
     default:

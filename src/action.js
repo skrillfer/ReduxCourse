@@ -5,6 +5,11 @@ export const addTask = (task) => ({
   payload: { task },
 });
 
+export const updateTask = (task) => ({
+  type: actionTypes.UPDATE_TASK,
+  payload: { task },
+});
+
 export const removeTask = (id) => ({
   type: actionTypes.REMOVE_TASK,
   payload: { id },
