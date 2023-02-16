@@ -1,9 +1,29 @@
-import * as actionTypes from './actionTypes';
+// Action Types
+const ADD_TASK = 'ADD_TASK';
+const REMOVE_TASK = 'REMOVE_TASK';
+const UPDATE_TASK = 'UPDATE_TASK';
 
+// Actions
+export const addTask = (task) => ({
+  type: ADD_TASK,
+  payload: { task },
+});
+
+export const updateTask = (task) => ({
+  type: UPDATE_TASK,
+  payload: { task },
+});
+
+export const removeTask = (id) => ({
+  type: REMOVE_TASK,
+  payload: { id },
+});
+
+// Reducer
 let id = 0;
 export default function reducer(state = [], action) {
   switch (action.type) {
-    case actionTypes.ADD_TASK:
+    case ADD_TASK:
       return [
         ...state,
         {
@@ -12,13 +32,13 @@ export default function reducer(state = [], action) {
           completed: false,
         },
       ];
-    case actionTypes.UPDATE_TASK:
+    case UPDATE_TASK:
       return state.map((task) =>
         task.id === action.payload.task.id
           ? { ...task, ...action.payload.task }
           : task
       );
-    case actionTypes.REMOVE_TASK:
+    case REMOVE_TASK:
       return state.filter((task) => task.id !== action.payload.id);
     default:
       return state;
