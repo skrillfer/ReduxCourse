@@ -5,9 +5,9 @@ const unsubscribe = store.subscribe(() =>
   console.log('Updated', store.getState())
 );
 
-store.dispatch(addTask('TaskM'));
-store.dispatch(addTask('TaskP'));
-store.dispatch(updateTask({ id: 1, completed: true }));
+store.dispatch(addTask({ task: 'Task 1' }));
+store.dispatch(addTask({ task: 'Task 2' }));
+store.dispatch(updateTask({ task: { id: 1, completed: true } }));
 
 // store.dispatch(removeTask(1));
 store.dispatch(fetchTodo());
