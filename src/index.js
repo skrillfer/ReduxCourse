@@ -1,8 +1,14 @@
-import axios from 'axios';
 import store from './store/configureStore';
-import { fetchTasks } from './store/tasks';
 
-store.dispatch(fetchTasks());
+store.dispatch({
+  type: 'apiRequest',
+  payload: {
+    url: '/tasks',
+    method: 'GET',
+    onSuccess: 'tasks/getTasks',
+    onError: 'SHOW_ERROR',
+  },
+});
 // const gettingTasks = async () => {
 //   // calling api
 //   try {
