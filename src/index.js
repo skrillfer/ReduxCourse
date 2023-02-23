@@ -1,17 +1,15 @@
-import { addTask, fetchTodo, removeTask, updateTask } from './store/tasks';
+import axios from 'axios';
 import store from './store/configureStore';
-import { addEmployee } from './store/employees';
+import { getTasks } from './store/tasks';
 
-const unsubscribe = store.subscribe(() =>
-  console.log('Updated', store.getState())
-);
-
-store.dispatch(addTask({ task: 'Task 1' }));
-store.dispatch(addTask({ task: 'Task 2' }));
-store.dispatch(updateTask({ task: { id: 1, completed: true } }));
-store.dispatch(addEmployee({ employee: 'Ramirez' }));
-store.dispatch({ type: 'SHOW_ERROR', payload: { error: 'MY OWN ERROR' } });
-// store.dispatch(removeTask(1));
-store.dispatch(fetchTodo());
-
-// unsubscribe();
+const gettingTasks = async () => {
+  // calling api
+  try {
+    const response = await axios.get('http://localhost:5500/api/tasks');
+    console.log(response);
+    store.dispatch(getTasks({ tasks: response.data }));
+  } catch (error) {
+    store.dispatch({ type: 'SHOW_ERROR', payload: { error: error.message } });
+  }
+};
+gettingTasks();

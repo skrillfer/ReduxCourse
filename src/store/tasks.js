@@ -4,6 +4,9 @@ const taskSlice = createSlice({
   name: 'tasks',
   initialState: [],
   reducers: {
+    getTasks: (state, action) => {
+      return action.payload.tasks;
+    },
     // action: function
     addTask: (state, action) => {
       state.push({
@@ -25,11 +28,5 @@ const taskSlice = createSlice({
   },
 });
 
-export const { addTask, removeTask, updateTask } = taskSlice.actions;
+export const { getTasks, addTask, removeTask, updateTask } = taskSlice.actions;
 export default taskSlice.reducer;
-// Actions
-export const fetchTodo = () => async (dispatch, getState) => {
-  const response = await fetch('https://jsonplaceholder.typicode.com/todos/1');
-  const task = await response.json();
-  dispatch(addTask({ task: task.title }));
-};
