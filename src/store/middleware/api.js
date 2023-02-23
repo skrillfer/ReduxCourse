@@ -7,7 +7,9 @@ const api =
       return next(action);
     }
 
-    const { url, method, data, onSuccess, onError } = action.payload;
+    const { url, method, data, onStart, onSuccess, onError } = action.payload;
+    if (onStart) dispatch({ type: onStart });
+
     try {
       const response = await axios.request({
         baseURL: 'http://localhost:5500/api',
@@ -18,6 +20,7 @@ const api =
       dispatch({ type: onSuccess, payload: response.data });
     } catch (error) {
       dispatch({ type: onError, payload: error.message });
+      dispatch({ type: 'SHOW_ERROR', payload: { error: error.message } });
     }
   };
 

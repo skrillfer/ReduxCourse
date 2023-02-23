@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import axios from '../utils/http';
+import { createSlice } from '@reduxjs/toolkit';
+// import axios from '../utils/http';
 let id = 0;
 
 const initialState = {
@@ -7,25 +7,33 @@ const initialState = {
   loading: false,
   error: null,
 };
-export const fetchTasks = createAsyncThunk(
-  'fetchTasks',
-  async (a, { rejectWithValue }) => {
-    try {
-      const response = await axios.get('/tasks');
-      return { tasks: response.data };
-    } catch (error) {
-      return rejectWithValue({ error: error.message });
-    }
-  }
-);
+// export const fetchTasks = createAsyncThunk(
+//   'fetchTasks',
+//   async (a, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get('/tasks');
+//       return { tasks: response.data };
+//     } catch (error) {
+//       return rejectWithValue({ error: error.message });
+//     }
+//   }
+// );
 
 const taskSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
     // action: function
+    apiRequested: (state, action) => {
+      state.loading = true;
+    },
+    apiRequestFailed: (state, action) => {
+      console.log(action.payload);
+      state.loading = false;
+    },
     getTasks: (state, action) => {
       state.tasks = action.payload;
+      state.loading = false;
     },
     addTask: (state, action) => {
       state.tasks.push({
@@ -47,20 +55,20 @@ const taskSlice = createSlice({
       state.tasks.splice(index, 1);
     },
   },
-  extraReducers: (builder) => {
-    const { pending, fulfilled, rejected } = fetchTasks;
-    builder
-      .addCase(pending, (state, action) => {
-        state.loading = true;
-      })
-      .addCase(fulfilled, (state, action) => {
-        state.tasks = action.payload.tasks;
-        state.loading = false;
-      })
-      .addCase(rejected, (state, action) => {
-        state.error = action.payload.error;
-      });
-  },
+  // extraReducers: (builder) => {
+  //   const { pending, fulfilled, rejected } = fetchTasks;
+  //   builder
+  //     .addCase(pending, (state, action) => {
+  //       state.loading = true;
+  //     })
+  //     .addCase(fulfilled, (state, action) => {
+  //       state.tasks = action.payload.tasks;
+  //       state.loading = false;
+  //     })
+  //     .addCase(rejected, (state, action) => {
+  //       state.error = action.payload.error;
+  //     });
+  // },
 });
 
 export const { getTasks, addTask, removeTask, updateTask } = taskSlice.actions;

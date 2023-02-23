@@ -3,10 +3,11 @@ import store from './store/configureStore';
 store.dispatch({
   type: 'apiRequest',
   payload: {
-    url: '/tasks',
+    url: '/tasksx',
     method: 'GET',
+    onStart: 'tasks/apiRequested',
     onSuccess: 'tasks/getTasks',
-    onError: 'SHOW_ERROR',
+    onError: 'tasks/apiRequestFailed',
   },
 });
 // const gettingTasks = async () => {
