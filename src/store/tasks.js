@@ -37,11 +37,7 @@ const taskSlice = createSlice({
       state.loading = false;
     },
     addTask: (state, action) => {
-      state.tasks.push({
-        id: ++id,
-        task: action.payload.task,
-        completed: false,
-      });
+      state.tasks.push(action.payload);
     },
     updateTask: (state, action) => {
       const index = state.tasks.findIndex(
@@ -91,4 +87,14 @@ export const loadTasks = () =>
     onStart: apiRequested.type,
     onSuccess: getTasks.type,
     onError: apiRequestFailed.type,
+  });
+
+export const addNewTask = (task) =>
+  apiCallBegan({
+    url,
+    method: 'POST',
+    onStart: apiRequested.type,
+    onSuccess: addTask.type,
+    onError: apiRequestFailed.type,
+    data: task,
   });
