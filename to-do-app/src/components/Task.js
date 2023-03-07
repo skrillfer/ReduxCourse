@@ -1,30 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react';
-import StoreContext from '../contexts/storeContext';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { loadTasks } from '../store/tasks';
 const Task = () => {
-  const store = useContext(StoreContext);
+  const taskSlice = useSelector((state) => state.tasks);
+  const { tasks, loading } = taskSlice;
 
-  const [tasks, setTasks] = useState([]);
+  const dispatch = useDispatch();
   useEffect(() => {
-    store.dispatch(loadTasks());
-    const unsubscribe = store.subscribe(() => {
-      const storeTasks = store.getState().tasks.tasks;
-      if (storeTasks !== tasks) {
-        setTasks(storeTasks);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
+    dispatch(loadTasks());
     // eslint-disable-next-line
   }, []);
 
   return (
-    <div>
-      {tasks.map((task) => (
-        <p key={task.id}>{task.task}</p>
-      ))}
-    </div>
+    <>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          {tasks.map((task) => (
+            <p key={task.id}>{task.task}</p>
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 
