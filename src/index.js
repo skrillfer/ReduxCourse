@@ -1,15 +1,7 @@
-import { apiCallBegan } from './store/api';
 import store from './store/configureStore';
+import { loadTasks } from './store/tasks';
 
-store.dispatch(
-  apiCallBegan({
-    url: '/tasks',
-    method: 'GET',
-    onStart: 'tasks/apiRequested',
-    onSuccess: 'tasks/getTasks',
-    onError: 'tasks/apiRequestFailed',
-  })
-);
+store.dispatch(loadTasks());
 // const gettingTasks = async () => {
 //   // calling api
 //   try {
