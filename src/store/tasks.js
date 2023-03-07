@@ -51,6 +51,12 @@ const taskSlice = createSlice({
       );
       state.tasks.splice(index, 1);
     },
+    completedTask: (state, action) => {
+      const index = state.tasks.findIndex(
+        (task) => task.id === action.payload.id
+      );
+      state.tasks[index].completed = action.payload.completed;
+    },
   },
   // extraReducers: (builder) => {
   //   const { pending, fulfilled, rejected } = fetchTasks;
@@ -75,6 +81,7 @@ export const {
   addTask,
   removeTask,
   updateTask,
+  completedTask,
 } = taskSlice.actions;
 export default taskSlice.reducer;
 
@@ -95,6 +102,16 @@ export const addNewTask = (task) =>
     method: 'POST',
     onStart: apiRequested.type,
     onSuccess: addTask.type,
+    onError: apiRequestFailed.type,
+    data: task,
+  });
+
+export const updateCompleted = (task) =>
+  apiCallBegan({
+    url: `${url}/${task.id}`,
+    method: 'PATCH',
+    onStart: apiRequested.type,
+    onSuccess: completedTask.type,
     onError: apiRequestFailed.type,
     data: task,
   });

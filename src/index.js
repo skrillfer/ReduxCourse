@@ -1,7 +1,8 @@
 import store from './store/configureStore';
-import { addNewTask, loadTasks } from './store/tasks';
+import { addNewTask, loadTasks, updateCompleted } from './store/tasks';
 store.dispatch(loadTasks());
 store.dispatch(addNewTask({ task: 'Created from fronted' }));
+store.dispatch(updateCompleted({ id: 6, completed: true }));
 // const gettingTasks = async () => {
 //   // calling api
 //   try {
